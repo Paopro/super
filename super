@@ -1,0 +1,1073 @@
+
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("Rogue lineage Minion is magic By RobloxPaoTH", "Sentinel")
+local plr = game.Players.LocalPlayer
+local Player = game:GetService("Players").LocalPlayer;
+
+
+---Character
+
+local Tab = Window:NewTab("Character")
+local Section = Tab:NewSection("Character")
+Section:NewButton("Nofall Method 1", "Press again if it won't work", function()
+    game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.FallDamage:Destroy()
+end)
+
+Section:NewButton("Nofall Method 2", "Press again if it won't work", function()
+    game.Players.LocalPlayer.Character.CharacterHandler.Remotes.ApplyFallDamage:Destroy()
+end)
+
+Section:NewButton("Nofall Method 3", "Press again if it won't work", function()
+    game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ApplyFallDamage:Destroy()
+end)
+
+Section:NewButton("Auto Pickup ", "pao pro", function()
+        repeat task.wait() until game:IsLoaded()
+local Player = game:GetService("Players").LocalPlayer;
+assert(Player.Character, "Must be spawned in");
+pcall(function()
+    coroutine.resume(coroutine.create(function()
+        while task.wait(0.25) do
+            for i,v in pairs(workspace.Trinkets:GetChildren()) do
+                if not Player.Character then Player.CharacterAdded:Wait() end
+                if (Player.Character:WaitForChild("HumanoidRootPart").Position - v.Position).Magnitude < 15 then
+                    if v:FindFirstChild("ClickPart") and v.Parent ~= nil then
+                        task.wait(0.05);
+                        fireclickdetector(v.ClickPart.ClickDetector, 14);
+                    elseif v.Parent ~= nil and not v:FindFirstChild("ClickPart") then
+                        fireclickdetector(v.ClickDetector, 14);
+                    end;
+                end;
+            end;
+        end;
+    end));
+end);
+end)
+
+
+Section:NewButton("No Injuries", "idk too how it work", function()
+	game.Players.LocalPlayer.Character.CharacterHandler.Remotes.Injure:Destroy()
+end)
+
+Section:NewToggle("No Stun", "No stun", function(state)
+    if state then
+		game.Players.LocalPlayer.Character.ChildAdded:Connect(function(child)
+			if _G.BP == true and child.Name == "Sprinting" or child.Name == "Action" or child.Name == "NoJump" or child.Name == "HeavyAttack" or child.Name == "LightAttack" or child.Name == "NoJump" or child.Name == "ForwardDash" or child.Name == "RecentDash" or child.Name == "ClimbCoolDown" or child.Name == "BrokenLeg" or child.Name == "Knocked" or child.Name == "Unconscious" or child.Name == "BrokenLeg" or child.Name == "BrokenRib" or child.Name == "BrokenArm" or child.Name == "NoDam" or child.Name == "NoDash" or child.Name == "Casting" or child.Name == "BeingExecuted" or child.Name == "IsClimbing" or child.Name == "Stun" then
+				wait()
+				child:Remove()
+			end
+		end)
+    else
+		game.Players.LocalPlayer.Character.ChildAdded:Connect(function(child)
+			if _G.BP == false and child.Name == "Sprinting" or child.Name == "Action" or child.Name == "NoJump" or child.Name == "HeavyAttack" or child.Name == "LightAttack" or child.Name == "NoJump" or child.Name == "ForwardDash" or child.Name == "RecentDash" or child.Name == "ClimbCoolDown" or child.Name == "BrokenLeg" or child.Name == "Knocked" or child.Name == "Unconscious" or child.Name == "BrokenLeg" or child.Name == "BrokenRib" or child.Name == "BrokenArm" or child.Name == "NoDam" or child.Name == "NoDash" or child.Name == "Casting" or child.Name == "BeingExecuted" or child.Name == "IsClimbing" or child.Name == "Stun" then
+				wait()
+				child:Remove()
+			end
+		end)
+    end
+end)
+
+Section:NewButton("Attach to back", "Press X on LocalPlayer Humanoid Part", function()
+	pcall(function()
+		local UIS = game:GetService("UserInputService")
+		local Player = game:GetService("Players").LocalPlayer
+		local Mouse = Player:GetMouse()
+		local t2
+		
+		UIS.InputBegan:Connect(function(i, t)
+			if i.KeyCode == Enum.KeyCode.X and not t then
+				local target = Mouse.Target
+				if target ~= nil and target.Parent:FindFirstChild("Humanoid") and not t then
+					t2 = true
+					if (Player.Character.Head.Position - target.Parent.Head.Position).Magnitude < 100  and t2 then
+						while wait() do
+							Player.Character.HumanoidRootPart.CFrame = target.Parent.HumanoidRootPart.CFrame * CFrame.new(0,0,3)
+							if t2 == false then
+								break
+							end
+						end
+					end
+				else
+					t2 = false
+					target = nil
+				end
+			end
+		end)
+	 end)
+end)
+
+Section:NewButton("Observe", "Click on Leaderboard", function()
+	if not game.Players.LocalPlayer.PlayerGui:FindFirstChild("LeaderboardGui") then
+		local NewLB = game.StarterGui:FindFirstChild("LeaderboardGui"):Clone()
+		NewLB.Parent = game.Players.LocalPlayer.PlayerGui
+		NewLB.ResetOnSpawn = true
+		local Connection
+		Connection = game.Players.LocalPlayer.CharacterAdded:Connect(function()
+			NewLB:Destroy()
+			Connection:Disconnect()
+		end)
+	end
+	if game.Players.LocalPlayer.PlayerGui:FindFirstChild("StartMenu") then
+		game.Players.LocalPlayer.PlayerGui:FindFirstChild("StartMenu").CopyrightBar:Destroy()
+	end
+	--CopyrightBar
+	workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
+	pcall(function()
+		shared.SPRLS = script
+		shared.SPROC = {}
+	
+		local Players = game:GetService "Players"
+		local UIS = game:GetService "UserInputService"
+		local RS = game:GetService "RunService"
+		local LocalPlayer = Players.LocalPlayer
+		local AdminMode = false
+		local Spectating
+		local PlayerData = {}
+	
+		LocalPlayer.PlayerGui:WaitForChild("LeaderboardGui"):WaitForChild("LeaderboardClient")
+		wait()
+	
+		function Find(Upvalues, Function)
+			local Constants = {}
+			if typeof(Upvalues) == "function" then
+				Constants = debug.getconstants(Upvalues)
+				Upvalues = debug.getupvalues(Upvalues)
+			end
+	
+			for i, v in pairs(Upvalues) do
+				local Env = getfenv(Function)
+				Env.Constants = Constants
+				setfenv(Function, Env)
+				local S, E = pcall(Function, v)
+	
+				if S and E then
+					local Env = getfenv(2)
+					Env.Value = v
+					Env.Index = i
+					setfenv(2, Env)
+					return v
+				end
+			end
+	
+			return false
+		end
+	
+		function InTable(Table, Value)
+			for i, v in pairs(Table) do
+				if v == Value then
+					return true
+				end
+			end
+	
+			return false
+		end
+	
+		UIS.InputEnded:Connect(function(Input, Processed)
+				if Input.UserInputType.Name == "Keyboard" and Input.KeyCode.Name == "Tab" and not Processed and UIS:IsKeyDown "LeftControl" and not UIS:IsKeyDown "LeftAlt" then AdminMode = not AdminMode end
+		end)
+	
+		local Runes = {}
+	
+		function OnCharacter(Character)
+			if not Character then
+				return false
+			end
+	
+			local Humanoid = Character:WaitForChild("Humanoid")
+			local LastHP = Humanoid.Health
+	
+			Humanoid.HealthChanged:Connect(function(NewHealth)
+				if Spectating and NewHealth < LastHP and LocalPlayer.Character == Character then
+					Spectating = nil
+					workspace.CurrentCamera.CameraSubject = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+				end
+	
+				LastHP = NewHealth
+			end)
+		end
+	
+		function NameRightClick(Player, Label)
+			if script ~= shared.SPRLS then
+				return false
+			end
+	
+			local Button = Label:FindFirstChild "SPB" or Instance.new("TextButton", Label)
+			Button.Name = "SPB"
+			Button.Transparency = 1
+			Button.Text = ""
+			Button.Size = UDim2.new(1, 0, 1, 0)
+			Button.Position = UDim2.new(0, 0, 0, 0)
+	
+			local SpeedLabel = Label:FindFirstChild "SPA" or Instance.new("TextLabel", Label)
+			SpeedLabel.Visible = false
+			SpeedLabel.Name = "SPA"
+			SpeedLabel.BackgroundTransparency = 1
+			SpeedLabel.Text = "0s"
+			SpeedLabel.TextXAlignment = "Right"
+			SpeedLabel.Size = UDim2.new(1, 0, 1, 0)
+			SpeedLabel.Position = UDim2.new(0, -10, 0, 0)
+			SpeedLabel.TextColor3 = Color3.fromRGB(240, 240, 240)
+			SpeedLabel.TextStrokeColor3 = Color3.fromRGB(35, 35, 35)
+			SpeedLabel.TextStrokeTransparency = 0.75
+			SpeedLabel.Font = Label.Font
+			SpeedLabel.TextSize = Label.TextSize
+	
+			Button.MouseButton1Click:Connect(function()
+				if script ~= shared.SPRLS then
+					return false
+				end
+	
+				if (Spectating == Player or Player == LocalPlayer) and LocalPlayer.Character then
+					Spectating = nil
+					workspace.CurrentCamera.CameraSubject = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+				else
+					if Player.Character and Player.Character:FindFirstChild("Humanoid") then
+						Spectating = Player
+						workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
+	
+						local T = Spectating.Character:GetDescendants()
+						
+						if LocalPlayer.Character then
+							for i, v in pairs(LocalPlayer.Character:GetDescendants()) do
+								table.insert(T, v)
+							end
+						end
+	
+						for i, v in pairs(T) do
+							if v:IsA("Decal") and v.Parent.Name:match("Slot%d+") and not Runes[v] and v.Transparency == 1 then
+								Runes[v] = v.Transparency
+	
+								v:GetPropertyChangedSignal "Transparency":Connect(function()
+									v.Transparency = 1
+								end)
+							end
+						end
+	
+						workspace.CurrentCamera.CameraSubject = Player.Character:FindFirstChildOfClass "Humanoid"
+					end
+				end
+			end)
+	
+			local Stats = Player:WaitForChild("leaderstats", .05)
+			local Hidden = (Stats and Stats:WaitForChild("Hidden", .05) and Stats.Hidden.Value) or false
+	
+			PlayerData[Player] = {
+				LastUpdate = 0,
+				LastPosition = (Player.Character and Player.Character:FindFirstChild "HumanoidRootPart" and Player.Character.HumanoidRootPart.Position) or Vector3.new(0, 0, 0),
+				Suspicious = 0,
+				TPSafe = false,
+				Hidden = Hidden,
+				Label = Label,
+				Button = Button,
+				SpeedLabel = SpeedLabel
+			}
+			PlayerData[Player].LastPosition = Vector2.new(PlayerData[Player].LastPosition.X, PlayerData[Player].LastPosition.Z)
+	
+			Player.CharacterAdded:Connect(function(Character)
+				if game.Players.LocalPlayer.PlayerGui:FindFirstChild("ClonedBoard") then
+					game.Players.LocalPlayer.PlayerGui:FindFirstChild("ClonedBoard"):Destroy()
+				end
+				PlayerData[Player].LastPosition = Character:WaitForChild "HumanoidRootPart".Position
+				PlayerData[Player].LastPosition = Vector2.new(PlayerData[Player].LastPosition.X, PlayerData[Player].LastPosition.Z)
+				PlayerData[Player].Suspicious = 0
+			end)
+	
+			return Label
+		end
+	
+		OnCharacter(LocalPlayer.Character)
+		LocalPlayer.CharacterAdded:Connect(OnCharacter)
+	
+		for i, v in pairs(getreg()) do
+			if typeof(v) == "function" and islclosure(v) and not is_synapse_function(v) then
+				local ups = debug.getupvalues(v)
+				local scr = getfenv(v).script
+	
+				if
+					Find(
+						ups,
+						function(x)
+							return scr.Name == "LeaderboardClient" and typeof(x) == "function" and
+								InTable(debug.getconstants(x), "HouseRank")
+						end
+					)
+				then
+					local Labels = {}
+	
+					if
+						Find(
+							Value,
+							function(x)
+								return typeof(x) == "table" and x[LocalPlayer]
+							end
+						)
+					then
+						Labels = Value
+						for i, v in pairs(Value) do
+							NameRightClick(i, v)
+						end
+					end
+	
+					local Index = shared.SPROC[v] and shared.SPROC[v].Index or Index
+					local Original = shared.SPROC[v] and shared.SPROC[v].Function or debug.getupvalues(v)[Index]
+					shared.SPROC[v] = {Index = Index, Function = Original}
+	
+					debug.setupvalue(
+						v,
+						Index,
+						function(Player, ...)
+							local Label = Original(Player, ...)
+							local DummyConstant = "HouseRank"
+							local DummyTable = Labels
+	
+							NameRightClick(Player, Label)
+	
+							return Label
+						end
+					)
+				end
+			end
+		end
+	
+		local Last = 0
+	
+		RS:UnbindFromRenderStep("LSBI")
+	
+		RS:BindToRenderStep("LSBI",500,function()
+			if tick() - Last > 1 / 2 then
+				Last = tick()
+	
+				for Player, Data in pairs(PlayerData) do
+					local LastUpdate = Data.LastUpdate
+					local Suspicious = Data.Suspicious
+					local SpeedLabel = Data.SpeedLabel
+					local LastPosition = Data.LastPosition
+	
+					if Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") then
+						if tick() - LastUpdate > 0.1 then
+							LastUpdate = tick()
+	
+							local NewPosition = Player.Character.HumanoidRootPart.Position
+							NewPosition = Vector2.new(NewPosition.X, NewPosition.Z)
+							local Velocity = (LastPosition - NewPosition).Magnitude
+	
+							SpeedLabel.Text = math.floor(Velocity) .. "s"
+	
+							if Velocity > 50 then
+								Suspicious = tick()
+							end
+	
+							LastPosition = Player.Character.HumanoidRootPart.Position
+							LastPosition = Vector2.new(LastPosition.X, LastPosition.Z)
+						end
+					end
+	
+					SpeedLabel.Visible = AdminMode
+					--SpeedLabel.TextColor3 = tick() - Suspicious < 5 and Color3.fromRGB(255, 50, 50) or Color3.fromRGB(240, 240, 240)
+	
+					local Color = Color3.fromRGB(240, 240, 240)
+					if tick() - Suspicious < 5 then
+						if Player.Character:FindFirstChild("TPSafe") then
+							Color = Color3.fromRGB(50, 255, 50)
+						elseif Player.Character:FindFirstChild("FlightOk") then
+							Color = Color3.fromRGB(255, 255, 50)
+						else
+							Color = Color3.fromRGB(255, 50, 50)
+						end
+					end
+					SpeedLabel.TextColor3 = Color 
+	
+					if Player:FindFirstChild("leaderstats") and Player.leaderstats:FindFirstChild("Hidden") then
+						if AdminMode then
+							Player.leaderstats.Hidden.Value = false
+						else
+							Player.leaderstats.Hidden.Value = Data.Hidden
+						end
+					end
+	
+					Data.Suspicious = Suspicious
+					Data.LastUpdate = LastUpdate
+					Data.LastPosition = LastPosition
+	
+					PlayerData[Player] = Data
+				end
+			end
+		end)
+	end)
+end)
+
+
+Section:NewButton("Reset", "Reset", function()
+	game:GetService("Players").LocalPlayer.Character:BreakJoints()
+end)
+
+Section:NewButton("Nofog + Fullbright", "Nofog + Fullbright", function()
+    while wait(1) do
+    game.Lighting.GlobalShadows = true
+    game.Lighting.Ambient = Color3.new(0.7,0.7,0.7)
+    game.Lighting.FogEnd = 100000
+    end
+end)
+
+Section:NewButton("Get Player Cframe", "Press again if it won't work", function()
+    setclipboard(tostring(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame))
+end)
+
+
+Section:NewButton("Illu detector", "Illu detector", function()
+    while wait(3) do
+    for i,v in pairs(game.Players:GetDescendants()) do
+   if v:IsA("Tool") and v.Name == "Globus" then
+	game.StarterGui:SetCore("SendNotification", {
+	Title = "Illuionist Detected"; -- the title (ofc)
+	Text = "Illuionist Is in your game"; -- what the text says (ofc)
+	Icon = "rbxassetid://57254792"; -- the image if u want. 
+	Duration = 120; -- how long the notification should in secounds
+	})
+   end
+end
+end
+end)
+
+Section:NewButton("Mod Detector", "Mod detector", function()
+while wait() do
+local mods = {
+ "trashg_ame",
+ "FirstComesTheStars",
+ "SheLovesAdonis",
+ "LiterallGalaxy",
+ "Regisaqt",
+ "NilsberCZ",
+ "b4ncck",
+ "Scendedee",
+ "tx8ekiii",
+ "kiznizl",
+ "buckmane",
+ "VeryMoodyDays",
+ "CrimsonRyu",
+ "r6yden",
+ "robloxsomuchfun60958",
+ "Femboy_Poodle",
+ "SpirituaILuke",
+ "kikigono",
+ "kosaderi",
+ "tooezforme1212"
+}
+local function rape(v)
+if table.find(mods,v.Name) then
+game.StarterGui:SetCore("SendNotification", {
+Title = "Mod Detected"; -- the title (ofc)
+Text = "Nigga has join the game"; -- what the text says (ofc)
+Icon = "rbxassetid://57254792"; -- the image if u want. 
+Duration = 120; -- how long the notification should in secounds
+})
+end
+end
+for _,v in pairs(game:GetService("Players"):GetPlayers()) do rape(v) end
+game:GetService("Players"):GetPlayers().PlayerAdded:Connect(rape)
+end
+end)
+
+
+
+Section:NewButton("Flight", "Hold J to fly", function()
+    local LP = game:GetService'Players'.LocalPlayer
+if not LP.Character then LP.CharacterAdded:Wait() end 
+local inputs = game:GetService'UserInputService'
+local Cam=workspace.CurrentCamera
+local T = LP.Character:WaitForChild'HumanoidRootPart'
+LP.CharacterAdded:Connect(function(Ch)
+    T=Ch:WaitForChild'HumanoidRootPart'
+end)
+local CONTROL = {
+    F = 0,
+    B = 0,
+    L = 0,
+    R = 0}
+local lCONTROL = {
+    F = 0,
+    B = 0,
+    L = 0,
+R = 0}
+local _UIS=game:GetService'UserInputService'
+local KeyCode=Enum.KeyCode
+Ev1 = _UIS.InputBegan:Connect(function(UIS, Gc)
+    if Gc then
+        return
+    end
+    if UIS.UserInputType == Enum.UserInputType.Keyboard then
+        if UIS.KeyCode == KeyCode.W then
+            CONTROL.F = 1
+        elseif UIS.KeyCode == KeyCode.S then
+            CONTROL.B = -1
+        elseif UIS.KeyCode == KeyCode.A then
+            CONTROL.L = -1
+        elseif UIS.KeyCode == KeyCode.D then
+            CONTROL.R = 1
+        end
+    end
+end)
+Ev2 = _UIS.InputEnded:Connect(function(UIS, Gc)
+    if Gc then
+        return
+    end
+    if UIS.UserInputType == Enum.UserInputType.Keyboard then
+        if UIS.KeyCode == KeyCode.W then
+            CONTROL.F = 0
+        elseif UIS.KeyCode == KeyCode.S then
+            CONTROL.B = 0
+        elseif UIS.KeyCode == KeyCode.A then
+            CONTROL.L = 0
+        elseif UIS.KeyCode == KeyCode.D then
+            CONTROL.R = 0
+        end
+    end
+end)
+local gg=getgenv
+local CFn=CFrame.new
+local VC3=Vector3.new
+local SPEED=0
+gg().Flying = false
+gg().BaseSpeed=200
+local RS=game:GetService'RunService'.RenderStepped
+local W=RS.Wait
+inputs.InputBegan:Connect(function(key)
+    if key.KeyCode==Enum.KeyCode.J and not inputs:GetFocusedTextBox() then
+        gg().Flying=true
+    end
+end)
+inputs.InputEnded:Connect(function(Key)
+    if Key.KeyCode==Enum.KeyCode.J then
+        gg().Flying=false
+    end
+end)
+spawn(function()
+    while wait() do
+        if gg().Flying then
+            W(RS)
+            if CONTROL.L+CONTROL.R~=0 or CONTROL.F+CONTROL.B~=0 then
+                SPEED=getgenv().BaseSpeed
+            elseif not(CONTROL.L+CONTROL.R~=0 or CONTROL.F+CONTROL.B~=0)and SPEED~=0 then
+                SPEED=0
+            end
+            if(CONTROL.L+CONTROL.R)~=0 or(CONTROL.F+CONTROL.B)~=0 then
+                T.Velocity=((Cam.CoordinateFrame.LookVector*(CONTROL.F+CONTROL.B))+((Cam.CoordinateFrame*CFn(CONTROL.L+CONTROL.R,(CONTROL.F+CONTROL.B)*.2,0).Position)-Cam.CoordinateFrame.Position))*SPEED
+                lCONTROL={F=CONTROL.F,B=CONTROL.B,L=CONTROL.L,R=CONTROL.R}
+            elseif(CONTROL.L+CONTROL.R)==0 and(CONTROL.F+CONTROL.B)==0 and SPEED~=0 then
+                T.Velocity=((Cam.CoordinateFrame.LookVector*(lCONTROL.F+lCONTROL.B))+((Cam.CoordinateFrame*CFn(lCONTROL.L+lCONTROL.R,(lCONTROL.F+lCONTROL.B)*.2,0).Position)-Cam.CoordinateFrame.Position))*SPEED
+            else
+                T.Velocity=VC3(0,1,0)
+            end
+        end
+    end
+end)
+CONTROL={F = 0,B = 0,L = 0,R = 0}
+lCONTROL={F = 0,B = 0,L = 0,R = 0}
+SPEED=0
+end)
+
+Section:NewButton("Auto Pickup Bag (USE IN KHEI ONLY)", "Khei only", function()
+repeat wait() until game.IsLoaded
+repeat wait() until game:GetService("Players").LocalPlayer
+repeat wait() until game:GetService("Players").LocalPlayer.Character
+
+local a=game:GetService("Workspace").Thrown;local b=function(c)firetouchinterest(c,game.Players.LocalPlayer.Character.HumanoidRootPart,0);firetouchinterest(c,game.Players.LocalPlayer.Character.HumanoidRootPart,1)end;a.ChildAdded:Connect(function(d)if d.Name=="ToolBag"then coroutine.resume(coroutine.create(function()repeat wait()b(d)until d==nil or d.Parent~=a end))end end)
+end)
+
+    
+Section:NewButton("Vulnere NoCD", "no cd", function()
+    local Plrs = game:GetService'Players'
+local RunS = game:GetService'RunService'
+if not Plrs.LocalPlayer then
+    Plrs.PlayerAdded:Wait()
+end
+local LP = Plrs.LocalPlayer
+local Char = LP.Character
+Char.ChildAdded:Connect(function(Obj)
+    RunS.Stepped:Wait()
+    if Obj.Name=='ArguereSingleCD'then
+        Obj:Destroy()
+    end
+end)
+end)
+
+Section:NewButton("Refresh cooldown manuel mode", "no cd", function()
+    local plrs = game:GetService("Players") 
+           for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+              if v:FindFirstChild("Skill") then 
+                v.Parent = game.Players.LocalPlayer.Character;
+                task.wait();
+                v:Destroy();
+              end
+           end
+end)
+
+Section:NewButton("Refresh cooldown press y", "no cd", function()
+
+local plrs = game:GetService("Players")
+local mouse = plrs.LocalPlayer:GetMouse()
+
+mouse.KeyDown:Connect(function(key)
+    if key:lower() == "y" then
+       for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+          if v:FindFirstChild("Skill") then 
+            v.Parent = game.Players.LocalPlayer.Character;
+            task.wait();
+            v:Destroy();
+          end
+       end
+    end
+end)
+end)
+
+
+
+
+Section:NewButton("cameo wipe", "don't spam", function()
+    local args = {
+    [1] = 3904.716137695312
+}
+
+game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ApplyFallDamage:FireServer(unpack(args))
+
+end)
+
+Section:NewKeybind("Toggle Gui", "Toggle", Enum.KeyCode.F, function()
+	Library:ToggleUI()
+end)
+
+--- TELEPORT
+local Tab2 = Window:NewTab("Teleport")
+local Section2 = Tab2:NewSection("Teleport :D")
+Section2:NewButton("Shore Obelisk", "Auto teleport to obelisk", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(662.755981, 365.696777, 2401.70117, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+end)
+Section2:NewButton("Tundra Obelisk", "Auto teleport to obelisk", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(7103.78174, 1315.04395, 653.68689, 0, 0, 1, 0, 1, -0, -1, 0, 0)
+end)
+Section2:NewButton("DeepForest Obelisk", "Auto teleport to obelisk", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(1006.13293, 47.8760986, -3227.12939, 0.999964118, 0.00280959695, 0.00799155701, -0.00283151586, 0.999992251, 0.0027308811, -0.00798380375, -0.00275342679, 0.999964356)
+end)
+Section2:NewButton("Forest Obelisk", "Auto teleport to obelisk", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(1706.948, 338.998688, -722.821655, 0.999449253, 5.41859263e-05, 0.0331854373, -5.5458446e-07, 0.999998689, -0.00161602325, -0.033185482, 0.00161511463, 0.999447942)
+end)
+Section2:NewButton("Skycastle Obelisk", "Auto teleport to obelisk", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(135.854721, 3616.375, 6463.46289, -0.999971628, -3.38848004e-05, -0.00753369601, -4.28487994e-07, 0.999990165, -0.00444075558, 0.00753377192, -0.00444062613, -0.999961793)
+end)
+Section2:NewButton("Sigil Obelisk", "Auto teleport to obelisk", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(6585.75879, 1320.27148, 465.19397, -0.999977469, -7.76229712e-08, 0.0067132432, -7.80059466e-08, 1, -5.67858685e-08, -0.0067132432, -5.7308263e-08, -0.999977469)
+end)
+Section2:NewButton("Snail Obelisk", "Auto teleport to obelisk", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(5787.25879, 1113.29126, 861.876526, 0.998228312, 0.00615248038, -0.0591812544, -0.0059228912, 0.999974191, 0.00405425951, 0.0592046976, -0.00369657273, 0.9982391)
+end)
+Section2:NewButton("The Rift", "GO TO KHEI RN", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(1025.56921, -558.010559, -4757.73633, 0.997591615, 9.49646335e-08, -0.0693615079, -9.28235551e-08, 1, 3.4091439e-08, 0.0693615079, -2.75709517e-08, 0.997591615)
+end)
+
+Section2:NewDropdown("Base classes Teleport", "Base classes", {"Fallion", "Cu", "Alfric", "Fabiana"}, function(currentOption)
+    if currentOption == "Fallion" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = game.workspace.NPCs.Fallion.HumanoidRootPart.CFrame
+    end
+
+    if currentOption == "Cu" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = game.workspace.NPCs.Cu.HumanoidRootPart.CFrame
+    end
+        if currentOption == "Alfric" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = game.workspace.NPCs.Alfric.HumanoidRootPart.CFrame
+       end
+        if currentOption == "Fabiana" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = game.workspace.NPCs.Fabiana.HumanoidRootPart.CFrame
+    end
+end)
+Section2:NewDropdown("Super classes Teleport", "Base classes", {"Regnier", "Ethan", "Isaac", "Gurn", "Knight Captain Frey", "Drake", "Gharnef", "Tlacta", "Kalazar" ,"The Sanctum Spear", "Ishikk", "Tiger", "Jafar"}, function(currentOption)
+        if currentOption == "Ethan" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = game.workspace.NPCs.Ethan.HumanoidRootPart.CFrame
+    end
+        if currentOption == "Isaac" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = game.workspace.NPCs.Isaac.HumanoidRootPart.CFrame
+      end
+        if currentOption == "Regnier" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = game.workspace.NPCs.Regnier.HumanoidRootPart.CFrame
+      end
+         if currentOption == "Gurn" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = game.workspace.NPCs.Gurn.HumanoidRootPart.CFrame
+      end
+         if currentOption == "Knight Captain Frey" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = game.workspace.NPCs["Knight Captain Frey"].HumanoidRootPart.CFrame
+      end
+         if currentOption == "Jafar" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = game.workspace.NPCs.Jafar.HumanoidRootPart.CFrame
+      end
+        if currentOption == "Drake" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = game.workspace.NPCs.Drake.HumanoidRootPart.CFrame
+      end
+        if currentOption == "Gharnef" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = game.workspace.NPCs.Gharnef.HumanoidRootPart.CFrame
+      end
+        if currentOption == "Tlacta" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = game.workspace.NPCs.Tlacta.HumanoidRootPart.CFrame
+      end
+       if currentOption == "The Sanctum Spear" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = game.workspace.NPCs["The Sanctum Spear"].HumanoidRootPart.CFrame
+      end
+       if currentOption == "Ishikk" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = game.workspace.NPCs.Ishikk.HumanoidRootPart.CFrame
+      end
+       if currentOption == "Tiger" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = game.workspace.NPCs.Tiger.HumanoidRootPart.CFrame
+      end
+        if currentOption == "Kalazar" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = game.workspace.NPCs.Kalazar.HumanoidRootPart.CFrame
+      end
+end)
+
+Section2:NewDropdown("Ultra classes Teleport", "Base classes", {"Big Hoss"}, function(currentOption)
+        if currentOption == "Big Hoss" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = game.workspace.NPCs["Big Hoss"].Head.CFrame
+    end
+end)
+
+Section2:NewDropdown("Gate Teleport", "Gates", {"Desert 1", "Desert 2", "Desert 3", "Desert 4", "Desert 5", "forest 1", "forest 2", "forest 3", "forest 4", "forest 5", "tundra 1", "tundra 2", "tundra 3", "tundra 4", "tundra 5", "tundra 6", "tundra 7", "deepforest 1", "deepforest 2", "deepforest 3", "deepforest 4", "deepforest 5", "Sigil", "Snail"}, function(currentOption)
+    if currentOption == "Desert 1" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(-2066.62158, 717.913696, -218.299332, 1, -6.39743902e-08, 3.96056494e-05, 6.39758397e-08, 1, -3.66256145e-08, -3.96056494e-05, 3.66281476e-08, 1)
+    end
+     if currentOption == "Desert 2" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(-1148.12378, 328.090454, 728.712158, 1, -2.42994336e-08, -3.62360188e-05, 2.42987088e-08, 1, -2.00401793e-08, 3.62360188e-05, 2.00392982e-08, 1)
+    end
+     if currentOption == "Desert 3" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(-1824.52283, 303.093628, 640.011292, 0.964365482, -2.03873114e-08, -0.264573723, 3.55358338e-08, 1, 5.24701349e-08, 0.264573723, -6.00022361e-08, 0.964365482)
+    end
+    if currentOption == "Desert 4" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(-434.949829, 231.093735, 200.333267, -0.320470989, 5.49196031e-08, -0.947258353, 6.77866581e-08, 1, 3.50442377e-08, 0.947258353, -5.29808126e-08, -0.320470989)
+    end
+    if currentOption == "Desert 5" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(-1998.61401, 674.519653, -693.729492, 0.415026128, 5.153586e-08, 0.90980947, -7.79055398e-08, 1, -2.11066435e-08, -0.90980947, -6.21193905e-08, 0.415026128)
+    end
+    if currentOption == "forest 1" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(1723.50024, 158.999954, 683.000122, -0.990924418, -8.34856948e-08, -0.134420246, -7.22069089e-08, 1, -8.87820946e-08, 0.134420246, -7.82702756e-08, -0.990924418)
+    end
+    if currentOption == "forest 2" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(2510.86499, 211.955673, -447.498627, -0.999924839, 9.7915688e-08, -0.0122595113, 9.77427561e-08, 1, 1.47051802e-08, 0.0122595113, 1.35057965e-08, -0.999924839)
+    end
+    if currentOption == "forest 3" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(2572.729, 309.043427, 207.04599, 0.979159892, -3.30531869e-09, -0.203090966, -5.96036376e-09, 1, -4.50116922e-08, 0.203090966, 4.52841391e-08, 0.979159892)
+    end
+    if currentOption == "forest 4" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(2285.9978, 148.999954, 950.043884, 0.516844392, -7.8829018e-08, -0.85607934, 9.37089411e-08, 1, -3.55061474e-08, 0.85607934, -6.1871134e-08, 0.516844392)
+    end
+    if currentOption == "forest 5" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(1792.98877, 118.294312, -576.823242, -0.0412715487, -4.04783869e-08, -0.999147952, -5.20128864e-08, 1, -3.83644227e-08, 0.999147952, 5.03852107e-08, -0.0412715487)
+    end
+    if currentOption == "tundra 1" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(3838.78101, 580.293762, -2.81482983, -0.996114552, -4.20054249e-08, 0.0880672261, -4.12090522e-08, 1, 1.08608935e-08, -0.0880672261, 7.18952675e-09, -0.996114552)
+    end
+    if currentOption == "tundra 2" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(3948.3938, 563.043762, -499.817749, -0.999765992, -2.96131137e-08, -0.0216328688, -2.99989082e-08, 1, 1.75092527e-08, 0.0216328688, 1.81541182e-08, -0.999765992)
+    end
+    if currentOption == "tundra 3" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(4793.26611, 581.793579, -1143.82251, 0.232844144, -5.20756025e-08, -0.972514093, 3.6138335e-08, 1, -4.48949855e-08, 0.972514093, -2.46915057e-08, 0.232844144)
+    end
+    if currentOption == "tundra 4" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(6589.77051, 544.293884, -981.345703, -0.138320625, 1.24096033e-07, -0.990387499, -1.02549924e-08, 1, 1.26732729e-07, 0.990387499, 2.76861662e-08, -0.138320625)
+    end
+    if currentOption == "tundra 5" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5949.78076, 1320.29358, 125.191643, -0.178616896, 7.79487692e-08, -0.983918726, 9.5730222e-08, 1, 6.18442684e-08, 0.983918726, -8.31443216e-08, -0.178616896)
+    end
+    if currentOption == "tundra 6" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5514.28174, 1067.29358, 918.669861, -0.00995301921, -2.4255284e-08, -0.999950469, -6.80019738e-08, 1, -2.35796271e-08, 0.999950469, 6.77639207e-08, -0.00995301921)
+    end
+    if currentOption == "tundra 7" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(4887.28418, 1116.29358, 1760.67566, -0.00260461122, -8.69965149e-08, 0.999996603, -8.13434724e-08, 1, 8.67849366e-08, -0.999996603, -8.11171503e-08, -0.00260461122)
+    end
+    if currentOption == "deepforest 1" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(1612.35522, 85.3681412, -2607.12207, -0.998755813, -5.56085915e-08, 0.0498685092, -5.62486591e-08, 1, -1.14317e-08, -0.0498685092, -1.42225138e-08, -0.998755813)
+    end
+    if currentOption == "deepforest 2" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(1108.3551, 168.368118, -3161.1228, 0.998049021, 4.28979163e-09, -0.0624355078, -6.58373756e-09, 1, -3.65353188e-08, 0.0624355078, 3.68750968e-08, 0.998049021)
+    end
+    if currentOption == "deepforest 3" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(1006.85504, 47.8681526, -3218.62305, 1, -8.11179248e-08, 9.11888947e-07, 8.11178751e-08, 1, 5.57006778e-08, -9.11888947e-07, -5.57006032e-08, 1)
+    end
+    if currentOption == "deepforest 4" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(2607.73584, 141.368118, -2494.62305, 0.991765797, 2.64504241e-08, -0.128065035, -1.50395323e-08, 1, 9.00693138e-08, 0.128065035, -8.74016237e-08, 0.991765797)
+    end
+    if currentOption == "deepforest 5" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(2011.8551, 204.359573, -2006.62207, -0.0436041467, -7.60614043e-08, -0.999048889, 6.0520648e-08, 1, -7.87752796e-08, 0.999048889, -6.3898014e-08, -0.0436041467)
+    end
+    if currentOption == "Sigil" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(6585.77588, 1320.49365, 458.904724, -0.999822974, 2.01217798e-09, -0.0188164674, 1.90753169e-09, 1, 5.57937296e-09, 0.0188164674, 5.54249224e-09, -0.999822974)
+    end
+    if currentOption == "Snail" then
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+        wait(0.4)
+        plr.Character.HumanoidRootPart.CFrame = CFrame.new(5787.11963, 1113.29358, 865.668884, -0.983999133, -1.5327789e-09, 0.178173125, -2.53469468e-10, 1, 7.20291116e-09, -0.178173125, 7.04249681e-09, -0.983999133)
+    end
+end)
+Section2:NewButton("Safe Merchant", "Auto teleport to obelisk", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-58.2551994, 205.494995, 2394.11328, 0.563137829, 4.98262835e-08, -0.826362967, 2.36747386e-08, 1, 7.64293944e-08, 0.826362967, -6.26042151e-08, 0.563137829)
+end)
+
+
+
+
+---Farm
+local Tab3 = Window:NewTab("Pathing")
+local Section3 = Tab3:NewSection("Pathing")
+Section3:NewButton("Crypt (LAG SERVER ONLY)", "Teleport", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(556.64978, 178.591049, -1178.41382, 0.999914289, -0.00945924222, 0.00905248523, 0.00942658447, 0.999948919, 0.00364343496, -0.00908648781, -0.00355778867, 0.999952376)
+end)
+Section3:NewButton("Special Artifact Machine", "Teleport", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(3295.80835, 11492.25, -5311.23438, 0.999860346, 3.84110912e-08, -0.0167133156, -3.83756245e-08, 1, 2.44278708e-09, 0.0167133156, -1.80106197e-09, 0.999860346)
+    end)
+Section3:NewButton("Sewer (LAG SERVER ONLY)", "Teleport", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-2690.97583, 608.054932, 106.185211, 0.360101372, 1.20458488e-08, 0.932913184, -4.66511914e-08, 1, 5.09512432e-09, -0.932913184, -4.53562734e-08, 0.360101372)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-2652.99146, 608.054932, 120.751984, 0.083534494, 4.33723848e-08, -0.996504903, -4.07758449e-08, 1, 4.01063716e-08, 0.996504903, 3.72830655e-08, 0.083534494)
+end)
+Section3:NewButton("Desert spy ", "Teleport", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-1162.88904, 856.688904, 2642.80615, 0.0378038585, -7.911121e-08, 0.999285161, -9.70415659e-09, 1, 7.95349138e-08, -0.999285161, -1.27039472e-08, 0.0378038585)
+    wait(1)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-1119.52319, 864.872803, 2609.43506, 0.999946117, 3.10694475e-08, -0.0103801722, -3.1719452e-08, 1, -6.24551362e-08, 0.0103801722, 6.27810266e-08, 0.999946117)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-1135.43103, 864.87262, 2594.50977, -0.00531313941, 1.25811164e-06, -0.999985874, -4.14222814e-06, 1, 1.28013801e-06, 0.999985874, 4.14897113e-06, -0.00531313941)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-1120.63818, 864.872681, 2667.59155, -0.999984443, -3.62125654e-08, 0.00557973422, -3.68015627e-08, 1, -1.0545746e-07, -0.00557973422, -1.05661165e-07, -0.999984443)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-1135.42383, 864.870789, 2682.96704, 0.0217115432, -0.00943717081, -0.999719739, 0.0037268342, 0.999949276, -0.00935839955, 0.999757349, -0.00352260447, 0.0217456128)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-1193.58643, 864.872864, 2681.51611, -0.00750390254, 4.66784407e-08, 0.999971867, -1.27185785e-07, 1, -4.76341704e-08, -0.999971867, -1.2753965e-07, -0.00750390254)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-1205.73792, 864.869995, 2667.13794, -0.868092895, 0.00021610393, 0.496401727, 0.000185318189, 1, -0.000111261717, -0.496401727, -4.59323383e-06, -0.868092895)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-1208.93384, 864.871765, 2610.34424, 0.999999702, 0.000231725848, -0.000709522865, -0.000230084115, 0.999997318, 0.00231307652, 0.00071005692, -0.00231291284, 0.999997079)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-1192.71301, 864.872803, 2594.33594, 0.844388783, -3.88084551e-08, 0.535730898, 1.89877429e-08, 1, 4.25127915e-08, -0.535730898, -2.57250043e-08, 0.844388783)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-487.728363, 121.59375, 1476.58911, -0.0280109644, -2.42064968e-09, -0.999607623, -1.48213628e-08, 1, -2.00627626e-09, 0.999607623, 1.47593493e-08, -0.0280109644)
+end)
+
+Section3:NewButton("Tundra 7 lab con", "Teleport", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+    wait(0.4)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(4900.26074, 473.957092, 1670.02087, -0.0783317238, -7.1609449e-08, 0.996927321, -3.61719579e-08, 1, 6.89880082e-08, -0.996927321, -3.06568637e-08, -0.0783317238)
+    wait(1)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(4871.29395, 473.957092, 1668.3595, -0.103894591, 9.51508241e-08, 0.994588315, 4.33263949e-08, 1, -9.1142681e-08, -0.994588315, 3.3622694e-08, -0.103894591)
+    wait(0.5)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(4871.93262, 476.550934, 1654.26953, 0.997875094, 3.43750406e-09, 0.0651561245, -3.85908283e-09, 1, 6.34443431e-09, -0.0651561245, -6.58239596e-09, 0.997875094)
+    wait(0.5)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(4875.23096, 473.957092, 1642.55334, 0.858730316, -7.11464452e-08, 0.512427747, 9.63471933e-08, 1, -2.26174581e-08, -0.512427747, 6.87932769e-08, 0.858730316)
+    wait(0.5)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(4886.30664, 473.957092, 1641.9707, 0.607942104, -2.11869544e-08, -0.793981373, 9.81470833e-08, 1, 4.84656084e-08, 0.793981373, -1.07391244e-07, 0.607942104)
+    wait(0.5)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(5798.93799, 328.580139, 633.944214, 0, 0, 1, 1, 0, 0, 0, 1, 1)
+    wait(0.5)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(4400.79199, 1111.29382, 1905.63074, -0.11897257, -9.44207379e-09, -0.99289757, -5.80960702e-08, 1, -2.54833465e-09, 0.99289757, 5.73802623e-08, -0.11897257)
+end)
+
+Section3:NewButton("Khei Farm", "Teleport", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-1723.38916, 865.999939, -3056.85547, 0.811208248, -5.87030939e-08, 0.584757328, 5.52341852e-08, 1, 2.37648425e-08, -0.584757328, 1.3020359e-08, 0.811208248)
+    wait(0.5)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-1792.83813, 897.399902, -3122.14111, 0.000324804365, -6.23246095e-08, 0.99999994, 3.26954464e-10, 1, 6.232451e-08, -0.99999994, 3.06711156e-10, 0.000324804365)
+    wait(0.5)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-1793.37732, 897.799927, -3163.16284, -0.392710268, -1.06634495e-07, 0.919662237, -3.56155851e-08, 1, 1.00741211e-07, -0.919662237, 6.80779921e-09, -0.392710268)
+    wait(0.5)
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-1424.41089, 572.999878, 137.543564, 0.951483786, -3.6882235e-09, -0.307698965, 7.22124416e-10, 1, -9.75347358e-09, 0.307698965, 9.05807518e-09, 0.951483786)
+end)
+
+---COLLECTOR
+local Tab4 = Window:NewTab("Collector")
+local Section4 = Tab4:NewSection("Collector")
+Section4:NewButton("Jungle", "Press again if it won't work", function()
+    while wait(1) do
+
+function FoundCollector() 
+game.StarterGui:SetCore("SendNotification", {
+                    Title = "Collector Detected!";
+                    Text = "Pao is pro";
+                    Duration = 9999999999;
+                    Button1 = "ight"
+})
+
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2688.46655, 1029.5481, 1467.48914, -0.093883872, 0, -0.995583177, 0, 1, 0, 0.995583177, 0, -0.093883872)
+fireclickdetector(game.Workspace.NPCs.jungleCollector.ClickDetector)
+end
+
+
+if game.Workspace.Map.jungleCollectorDoor.Transparency == 1 then
+    FoundCollector()
+end
+end
+end)
+Section4:NewButton("beach", "Press again if it won't work", function()
+    while wait(1) do
+
+function FoundCollector() 
+game.StarterGui:SetCore("SendNotification", {
+                    Title = "Collector Detected!";
+                    Text = "Pao is pro";
+                    Duration = 9999999999;
+                    Button1 = "ight"
+})
+
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-921.624878, 241.099426, 272.999756, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+fireclickdetector(game.Workspace.NPCs.beachCollector.ClickDetector)
+end
+
+
+if game.Workspace.Map.beachCollectorDoor.Transparency == 1 then
+    FoundCollector()
+end
+end
+end)
+Section4:NewButton("desert", "Press again if it won't work", function()
+    while wait(1) do
+
+function FoundCollector() 
+game.StarterGui:SetCore("SendNotification", {
+                    Title = "Collector Detected!";
+                    Text = "Pao is pro";
+                    Duration = 9999999999;
+                    Button1 = "ight"
+})
+
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1547.11768, 354.259705, 2706.39087, 0.318800718, -0.884056211, -0.341776073, -0.190877691, 0.293320745, -0.936765194, 0.928402901, 0.363878757, -0.0752357543)
+fireclickdetector(game.Workspace.NPCs.desertCollector.ClickDetector)
+end
+
+
+if game.Workspace.Map.desertCollectorDoor.Transparency == 1 then
+    FoundCollector()
+end
+end
+end)
+Section4:NewButton("plains", "Press again if it won't work", function()
+    while wait(1) do
+
+function FoundCollector() 
+game.StarterGui:SetCore("SendNotification", {
+                    Title = "Collector Detected!";
+                    Text = "Pao is pro";
+                    Duration = 9999999999;
+                    Button1 = "ight"
+})
+
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1279.97937, 1126.0459, -2449.45117, -0.996665716, -0.024980383, -0.0776744485, 9.81125181e-11, 0.951979995, -0.306160182, 0.0815925226, -0.305139393, -0.948805809)
+fireclickdetector(game.Workspace.NPCs.plainsCollector.ClickDetector)
+end
+
+
+if game.Workspace.Map.plainsCollectorDoor.Transparency == 1 then
+    FoundCollector()
+end
+end
+end)
